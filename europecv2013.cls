@@ -26,12 +26,12 @@
 %
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{europecv2013}[2014/09/07 (beta) European curriculum vitae 2013 class]
+\ProvidesClass{europecv2013}[2015/04/12 (beta) European curriculum vitae 2013 class]
 
 % CV models and instructions:
 %   http://europass.cedefop.europa.eu/en/documents/curriculum-vitae/templates-instructions
 
-\newcommand\ecv@utf[1]{{\inputencoding{utf8x}#1}}
+\DeclareRobustCommand\ecv@utf[1]{{\inputencoding{utf8x}#1}}
 
 % Set language
 \DeclareOption{english}{%
@@ -351,7 +351,7 @@
 \newcommand*{\ecvfootername}[1]{\def\ecv@footername{#1}}
 \newcommand*{\ecvaddress}[1]{\def\ecv@address{#1}}
 \newcommand*{\ecvtelephone}[2][]{\def\ecv@mobile{#2}\def\ecv@telephone{#1}}
-\newcommand*{\ecvemail}[1]{\def\ecv@email{#1}}
+\newcommand*{\ecvemail}[2][]{\def\ecv@emailid{#2}\def\ecv@emailtext{#1}}
 \newcommand*{\ecvlinkedin}[1]{\def\ecv@linkedin{#1}}
 \newcommand*{\ecvhomepage}[1]{\def\ecv@homepage{#1}}
 \newcommand*{\ecvnationality}[1]{\def\ecv@nationality{#1}}
@@ -389,7 +389,7 @@
 
 \providecommand{\ecvpersonalinfo}[1][20pt]{%
 & \tabularnewline[20pt]
-\textcolor{torea-bay}{\ecv@infosectionkey} & \LARGE\ecv@name\tabularnewline[10pt]
+\textcolor{torea-bay}{\MakeUppercase{\ecv@infosectionkey}} & \LARGE\ecv@name\tabularnewline[10pt]
 \ifx\@empty\ecvdrawpicture &\else
 \ecv@beforepic\ecvdrawpicture\ecv@afterpic &
 \fi
@@ -401,8 +401,14 @@ $\begin{array}{@{}l}\includegraphics[width=\ecv@iconwidth]{ic_mobile}\end{array}
  \ifx\@empty\ecv@telephone\else\qquad\includegraphics[width=\ecv@iconwidth]{ic_phone_home} \ecv@telephone\fi
 \par\vspace{5pt}
 \fi
-\ifx\@empty\ecv@email\else
-$\begin{array}{@{}l}\includegraphics[width=\ecv@iconwidth]{ic_email}\end{array}$\href{mailto:\ecv@email}{\ecv@email}\par\vspace{5pt}
+\ifx\@empty\ecv@emailid\else
+	$\begin{array}{@{}l}\includegraphics[width=\ecv@iconwidth]{ic_email}\end{array}$%
+	\ifx\@empty\ecv@emailtext%
+		\href{mailto:\ecv@emailid}{\foreignlanguage{english}{\ecv@emailid}}
+	\else%
+		\href{mailto:\ecv@emailid}{\ecv@emailtext}
+	\fi
+	\par\vspace{5pt}
 \fi
 \ifx\@empty\ecv@homepage\else
 $\begin{array}{@{}l}\includegraphics[width=\ecv@iconwidth]{ic_url}\end{array}$\ecv@homepage\par\vspace{5pt}
@@ -470,7 +476,7 @@ $\begin{array}{@{}l}\includegraphics[width=\ecv@iconwidth]{ic_linkedin}\end{arra
 \setlength\extrarowheight{2pt}
 \begin{tabular}[t]{m{\ecv@langparwidth}|m{\ecv@langparwidth}|m{\ecv@langparwidth}|m{\ecv@langparwidth}|m{\ecv@langparwidth}}
 \firsthline
-\multicolumn{2}{c|}{\textcolor{torea-bay}{\ecv@understandkey}}&\multicolumn{2}{c|}{\textcolor{torea-bay}{\ecv@speakkey}}&\centering\textcolor{torea-bay}{\ecv@writekey}\tabularnewline\nopagebreak[4]\hline
+\multicolumn{2}{c|}{\textcolor{torea-bay}{\MakeUppercase{\ecv@understandkey}}}&\multicolumn{2}{c|}{\textcolor{torea-bay}{\MakeUppercase{\ecv@speakkey}}}&\centering\textcolor{torea-bay}{\MakeUppercase{\ecv@writekey}}\tabularnewline\nopagebreak[4]\hline
 \centering\small{\textcolor{torea-bay}{\ecv@listenkey}}   & \centering \small{\textcolor{torea-bay}{\ecv@readkey}} &\centering \small{\textcolor{torea-bay}{\ecv@interactkey}} &\centering \small{\textcolor{torea-bay}{\ecv@productkey}} & \tabularnewline\nopagebreak[4]
 %\lasthline
 \hline
